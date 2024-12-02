@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Live Markdown Previewer</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      background-color: #f4f4f4;
+      color: #333;
+    }
+    .container {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      width: 90%;
+      max-width: 800px;
+      margin: 2rem auto;
+    }
+    h1 {
+      text-align: center;
+      color: #444;
+    }
+    textarea, #preview {
+      width: 100%;
+      min-height: 300px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 1rem;
+      background: white;
+      font-size: 1rem;
+      line-height: 1.5;
+      overflow: auto;
+    }
+    textarea {
+      resize: vertical;
+    }
+    #preview {
+      border: 1px solid #ddd;
+      background-color: #fafafa;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Live Markdown Previewer</h1>
+    <textarea id="editor" placeholder="Type Markdown here..."></textarea>
+    <div id="preview"></div>
+  </div>
+  <script>
+    // Default Markdown content
+    const defaultMarkdown = `
+# Welcome to Markdown Previewer!
+
+## Here's a sub-heading
+
+This is how you write code: \`<div></div>\`.
+
+\`\`\`
+// Example of multi-line code:
+function greet() {
+  console.log("Hello, World!");
+}
+\`\`\`
+
+Make text **bold**, _italic_, or **_both_**. You can even ~~strike-through~~ text.
+
+> "Blockquotes are also supported!"
+
+- Lists? Absolutely:
+  - Item 1
+  - Item 2
+    - Nested Item
+
+1. Numbered lists too.
+2. Like this!
+
+Add [links](https://www.example.com) or images:
+
+![Image Example](https://via.placeholder.com/150)
+`;
+
+    // Select DOM elements
+    const editor = document.getElementById('editor');
+    const preview = document.getElementById('preview');
+
+    // Set default content in the editor
+    editor.value = defaultMarkdown;
+
+    // Function to render Markdown to HTML
+    const renderMarkdown = () => {
+      const markdownText = editor.value;
+      preview.innerHTML = marked.parse(markdownText, { breaks: true });
+    };
+
+    // Add input event listener to update the preview in real-time
+    editor.addEventListener('input', renderMarkdown);
+
+    // Render default content on page load
+    renderMarkdown();
+  </script>
+</body>
+</html>
